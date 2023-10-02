@@ -49,6 +49,52 @@ app.post("/creatBlog",async(req,res)=>{
 
 
 })
+app.get("/blogs",async(req,res)=>{
+    const blogs=await Blog.find()   //  yesle array ma data dinxa so we can chek
+if(blogs.length==0){
+    res.json({
+        status:200,
+        message:"empty blogs/no blogs found"
+    })
+    }else{
+    res.json({
+        status:200,
+        message:"blog fetch successful",
+        data:blogs
+    })
+    }
+})
+app.get("/blogs/:id",async(req,res)=>{
+    console.log(req.params.id)
+    const id=req.params.id
+    // const blog=await Blog.find({_id:id})  // yo cahi best haina//
+    // if (blog.length==0){
+    //     res.status(404).json({
+
+    //         message:"NO blogs found"
+    //     })
+    // }else{
+    // // const blog=await Blog.findById(id)
+    // res.status(200).json({
+    //     messgae:"blog fetched successfull",
+    //     data:blog
+    // })
+    // }
+    ///alternative
+    const blog=await Blog.findById(id)
+    if (!blog){
+        res.status(404).json({
+
+            message:"NO blogs found"
+        })
+    }else{
+    
+    res.status(200).json({
+        messgae:"blog fetched successfull",
+        data:blog
+    })
+    }
+})
 
 
 app.listen(3000,()=>{
